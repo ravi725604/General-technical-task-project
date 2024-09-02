@@ -67,7 +67,7 @@ This project is licensed under the MIT License. For more details, please refer t
 
 ## Contact
 For any inquiries or support, please reach out to:
-- Ravi Raushan:(jithakur)
-- *GitHub*: [yourusername](https://github.com/yourusername)
+- Ravi Raushan: (jithakur280@gmail.com)
+- *GitHub*: [ravi725604](https://github.com/ravi725604/)
 
 Thank you for using Real Estate Finder!
