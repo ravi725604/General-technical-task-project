@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties Listing</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Properties for Sale or Rent</h1>
+        <div class="properties-grid" id="properties-grid">
+            <!-- Property cards will be dynamically inserted here -->
+        </div>
+    </div>
+    <script>
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        async function fetchProperties() {
+            try {
+                const response = await fetch('http://localhost:5000/api/properties');
+                const properties = await response.json();
+                const propertiesGrid = document.getElementById('properties-grid');
+                propertiesGrid.innerHTML = properties.map(property => `
+                    <div class="property-card">
+                        <div class="property-details">
+                            <h2>${property.title}</h2>
+                            <p class="price">₹${property.price}</p>
+                            <p class="location">${property.location}</p>
+                            <p class="description">${property.description}</p>
+                            <p class="categories">Category: ${property.categories}</p>
+                            <p class="purpose">Purpose: ${property.purpose}</p>
+                            <p class="bedrooms">Bedrooms: ${property.bedrooms}</p>
+                            <p class="propertyType">Type: ${property.propertyType}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+            }
+        }
+
+        async function likeProperty(propertyId) {
+            try {
+                const response = await fetch('http://localhost:5000/api/users/likedProperties', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ propertyId })
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                console.log('Property liked successfully');
+            } catch (error) {
+                console.error('Error liking property:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProperties);
+    </script>
+</body>
+</html>
